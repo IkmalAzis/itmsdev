@@ -22,6 +22,10 @@
                 @if(Auth::user()->usertype == 0) 
                     Manager {{ Auth::user()->name }}
                 @endif
+
+                @if(Auth::user()->usertype == 1) 
+                     {{ Auth::user()->name }}
+                @endif
                         
                 @if(Auth::user()->usertype == 2) 
                     Developer {{ Auth::user()->name }}

@@ -1,190 +1,56 @@
-@extends('layouts.skydash')
+@extends('layouts.skydash_bu')
 
 @section('pagetitle')
-    <title>Dashboard</title>
+  <title>Dashboard — ITMS</title>
 @endsection
 
+@section('topbar-title', 'Dashboard')
+
 @section('content')
-<div class="content-wrapper">
-    <div class="row">
-        <div class="col-md-12 grid-margin">
-            <div class="row">
-                <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                    @foreach($users as $user)
-                    <h3 class="font-weight-bold">{{ $user->name }}</h3>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <p class="card-title">Advanced Table</p>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="table-responsive">
-                                <table id="example" class="display expandable-table" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Quote#</th>
-                                            <th>Product</th>
-                                            <th>Business type</th>
-                                            <th>Policy holder</th>
-                                            <th>Premium</th>
-                                            <th>Status</th>
-                                            <th>Updated at</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 grid-margin transparent">
-            <div class="row">
-                <div class="col-md-6 mb-4 stretch-card transparent">
-                    <div class="card card-tale">
-                        <div class="card-body">
-                            <p class="mb-4">Today’s Bookings</p>
-                            <p class="fs-30 mb-2">4006</p>
-                            <p>10.00% (30 days)</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4 stretch-card transparent">
-                    <div class="card card-dark-blue">
-                        <div class="card-body">
-                            <p class="mb-4">Total Bookings</p>
-                            <p class="fs-30 mb-2">61344</p>
-                            <p>22.00% (30 days)</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
-                    <div class="card card-light-blue">
-                        <div class="card-body">
-                            <p class="mb-4">Number of Meetings</p>
-                            <p class="fs-30 mb-2">34040</p>
-                            <p>2.00% (30 days)</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 stretch-card transparent">
-                    <div class="card card-light-danger">
-                        <div class="card-body">
-                            <p class="mb-4">Number of Clients</p>
-                            <p class="fs-30 mb-2">47033</p>
-                            <p>0.22% (30 days)</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-7 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <p class="card-title mb-0">Top Products</p>
-                        <div class="table-responsive">
-                            <table class="table table-striped table-borderless">
-                                <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Price</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Search Engine Marketing</td>
-                                        <td class="font-weight-bold">$362</td>
-                                        <td>21 Sep 2018</td>
-                                        <td class="font-weight-medium">
-                                            <div class="badge badge-success">Completed</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Search Engine Optimization</td>
-                                        <td class="font-weight-bold">$116</td>
-                                        <td>13 Jun 2018</td>
-                                        <td class="font-weight-medium">
-                                            <div class="badge badge-success">Completed</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Display Advertising</td>
-                                        <td class="font-weight-bold">$551</td>
-                                        <td>28 Sep 2018</td>
-                                        <td class="font-weight-medium">
-                                            <div class="badge badge-warning">Pending</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Pay Per Click Advertising</td>
-                                        <td class="font-weight-bold">$523</td>
-                                        <td>30 Jun 2018</td>
-                                        <td class="font-weight-medium">
-                                            <div class="badge badge-warning">Pending</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>E-Mail Marketing</td>
-                                        <td class="font-weight-bold">$781</td>
-                                        <td>01 Nov 2018</td>
-                                        <td class="font-weight-medium">
-                                            <div class="badge badge-danger">Cancelled</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Referral Marketing</td>
-                                        <td class="font-weight-bold">$283</td>
-                                        <td>20 Mar 2018</td>
-                                        <td class="font-weight-medium">
-                                            <div class="badge badge-warning">Pending</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Social media marketing</td>
-                                        <td class="font-weight-bold">$897</td>
-                                        <td>26 Oct 2018</td>
-                                        <td class="font-weight-medium">
-                                            <div class="badge badge-success">Completed</div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-5 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">To Do Lists</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">Home</h3>
-    
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="page-header">
+  <div>
+    @foreach($users as $user)
+    <h3>Good day, {{ $user->name }}</h3>
+    @endforeach
+    <p>Here are your submitted system requests.</p>
+  </div>
 </div>
+
+<div class="card">
+  <div class="card-title">{{ Auth::user()->bunit }} — Request List</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Request Type</th>
+          <th>PIC Name</th>
+          <th>Description</th>
+          <th>Submitted</th>
+        </tr>
+      </thead>
+      <tbody>
+        @php($i = 1)
+        @forelse($busunit ?? [] as $bu)
+        <tr>
+          <td style="color:var(--muted)">{{ $i++ }}</td>
+          <td><span class="badge badge-primary">{{ $bu->request }}</span></td>
+          <td>{{ $bu->name }}</td>
+          <td style="color:var(--muted); max-width:300px">{{ $bu->description }}</td>
+          <td style="color:var(--muted); white-space:nowrap">{{ date('d M Y', strtotime($bu->created_at)) }}</td>
+        </tr>
+        @empty
+        <tr>
+          <td colspan="5" style="text-align:center; color:var(--muted); padding:2.5rem">
+            <i class="fa-solid fa-inbox" style="font-size:1.5rem; margin-bottom:0.5rem; display:block"></i>
+            No requests submitted yet.
+          </td>
+        </tr>
+        @endforelse
+      </tbody>
+    </table>
+  </div>
+</div>
+
 @endsection

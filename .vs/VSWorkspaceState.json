@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\app",
+    "\\app\\Http",
+    "\\app\\Http\\Controllers",
+    "\\database",
+    "\\database\\migrations",
+    "\\database\\seeders",
+    "\\resources",
+    "\\resources\\views",
+    "\\resources\\views\\itms"
+  ],
+  "SelectedNode": "\\database\\migrations\\2024_01_02_143048_create_projects_table.php",
+  "PreviewInSolutionExplorer": false
+}

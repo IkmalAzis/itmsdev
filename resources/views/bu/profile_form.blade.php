@@ -19,8 +19,8 @@
     <div class="col-12 grid-margin stretch-card"><div class="card">
         <div class="card-body">
             <h4 class="card-title">Profile form</h4>
-            @if($profile->id)<!-- TO CHECK id ALREADY EXIST OR NOT -->
-            <form action="{{ route('app.profile.update', $profile->id) }}" method="post">
+            @if($profile->userid)<!-- TO CHECK id ALREADY EXIST OR NOT -->
+            <form action="{{ route('app.profile.update', $profile->userid) }}" method="post">
                 <input type="hidden" name="_method" value="PUT">
             @else
                 <form action="{{ route('app.profile.store') }}" method="post">
@@ -46,16 +46,16 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label for="businessunit" class="col-md-4 col-form-label text-md-end">{{ __('Business Unit') }}</label>
-                    <select class="form-control" name="businessunit"> 
+                    <label for="bunit" class="col-md-4 col-form-label text-md-end">{{ __('Business Unit') }}</label>
+                    <select class="form-control" name="bunit"> 
                         <option value="">-- Please Select --</option>
-                        <option value="ITMS" {{ old('businessunit', $profile->businessunit) === 'ITMS' ? 'selected' : '' }}>ITMS</option>
-                        <option value="CCI" {{ old('businessunit', $profile->businessunit) === 'CCI' ? 'selected' : '' }}>CCI</option>
-                        <option value="COE" {{ old('businessunit', $profile->businessunit) === 'COE' ? 'selected' : '' }}>COE</option>
-                        <option value="COBA" {{ old('businessunit', $profile->businessunit) === 'COBA' ? 'selected' : '' }}>COBA</option>
-                        <option value="COGS" {{ old('businessunit', $profile->businessunit) === 'COGS' ? 'selected' : '' }}>COGS</option>
+                        <option value="ITMS" {{ old('bunit', $profile->bunit) === 'ITMS' ? 'selected' : '' }}>ITMS</option>
+                        <option value="CCI" {{ old('bunit', $profile->bunit) === 'CCI' ? 'selected' : '' }}>CCI</option>
+                        <option value="COE" {{ old('bunit', $profile->bunit) === 'COE' ? 'selected' : '' }}>COE</option>
+                        <option value="COBA" {{ old('bunit', $profile->bunit) === 'COBA' ? 'selected' : '' }}>COBA</option>
+                        <option value="COGS" {{ old('bunit', $profile->bunit) === 'COGS' ? 'selected' : '' }}>COGS</option>
                     </select>
-                    @error('businessunit')
+                    @error('bunit')
                     <span class="text-danger">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -65,7 +65,7 @@
                     <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
                     
                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email"
-                        value="{{ old('email') }}">
+                        value="{{ old('email', $profile->email) }}">
                     
                     @error('email')
                     <span class="invalid-feedback" role="alert">

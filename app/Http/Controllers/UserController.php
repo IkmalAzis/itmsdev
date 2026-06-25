@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         $profile = Auth::user();
-        $profiles = User::where('id', $profile->id)->get();
+        $profiles = User::where('userid', $profile->userid)->get();
         return view('bu.profile_index', compact('profiles'));
     }
 
@@ -63,9 +63,11 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string|max:255',
-            'businessunit'=> 'required|string|max:255',
-            'phonenum'=> 'required|string|unique:users,phonenum',
-            'email'=> 'required|string|email|unique:users,email',
+            'bunit'=> 'required|string|max:255',
+            // 'phonenum'=> 'required|string|unique:users,phonenum',
+            // 'email'=> 'required|string|email|unique:users,email',
+            'phonenum'=> 'required|string',
+            'email'=> 'required|string|email',
             'password'=> 'nullable|string|min:8|confirmed', //OPTIONAL TO CHANGE PASSWORD OR MAINTAIN
             ]);
      

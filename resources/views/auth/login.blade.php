@@ -1,44 +1,54 @@
 @extends('layouts.login')
 
 @section('pagetitle')
-    <title>ITMS Dev Login</title>
+  <title>Sign In — ITMS</title>
 @endsection
 
 @section('content')
-<form method="POST" action="{{ route('login') }}" class="pt-3" >
-@csrf
-    <div class="form-group">
-        <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email  Address') }}</label>
+<div class="card-heading">
+  <h2>Welcome back</h2>
+  <p>Sign in to your account to continue.</p>
+</div>
 
-        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+<form method="POST" action="{{ route('login') }}">
+  @csrf
 
-        @error('email')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-        @enderror
+  <div class="form-group">
+    <label for="email">Email Address</label>
+    <div class="input-wrap">
+      <i class="fa-regular fa-envelope"></i>
+      <input id="email" type="email" name="email"
+        class="@error('email') is-invalid @enderror"
+        value="{{ old('email') }}" required autocomplete="email">
     </div>
-    <div class="form-group">
-        <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+    @error('email')
+      <span class="invalid-feedback"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</span>
+    @enderror
+  </div>
 
-        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+  <div class="form-group">
+    <label for="password">Password</label>
+    <div class="input-wrap">
+      <i class="fa-solid fa-lock"></i>
+      <input id="password" type="password" name="password"
+        class="@error('password') is-invalid @enderror"
+        required autocomplete="current-password">
+    </div>
+    @error('password')
+      <span class="invalid-feedback"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</span>
+    @enderror
+  </div>
 
-        @error('password')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-        @enderror
-    </div>
-    <div class="mt-3">
-        <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">LOG IN</button>
-    </div>
-    <div class="my-3 d-flex justify-content-between align-items-center">
+  <button type="submit" class="btn-primary">Sign In</button>
+
+  <div class="form-footer">
     @if (Route::has('password.request'))
-        <a  href="{{ route('password.request') }}" class="auth-link text-black">{{ __('Forgot Your Password?') }}</a>
+      <a href="{{ route('password.request') }}">Forgot password?</a>
     @endif
-    </div>
-    <div class="text-center mt-4 font-weight-light">
-        Don't have an account? <a href="{{ route('register') }}" class="text-primary">Create</a>
-    </div>
+  </div>
 </form>
+
+<div class="register-link">
+  Don't have an account? <a href="{{ route('register') }}">Create one</a>
+</div>
 @endsection

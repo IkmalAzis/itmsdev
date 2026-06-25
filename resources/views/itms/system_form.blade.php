@@ -1,107 +1,103 @@
 @extends('layouts.skydash')
 
 @section('pagetitle')
-    <title>System Development Info Form</title>
+  <title>{{ $system->sysid ? 'Edit' : 'New' }} System — ITMS</title>
+@endsection
+
+@section('topbar-title')
+  {{ $system->sysid ? 'Edit System' : 'New System' }}
 @endsection
 
 @section('content')
-<div class="content-wrapper">
-    <div class="row">
-        <div class="col-md-12 grid-margin">
-            <div class="row">
-                <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                    <h3 class="font-weight-bold">System Development Information Form</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-    <div class="col-12 grid-margin stretch-card"><div class="card">
-        <div class="card-body">
-            
-            @if($system->sysid)<!-- TO CHECK id ALREADY EXIST OR NOT -->
-            <form action="{{ route('app.itms.system.update', $system->sysid) }}" method="post">
-                <input type="hidden" name="_method" value="PUT">
-            @else
-                <form action="{{ route('app.itms.system.store') }}" method="post">
-            @endif
-            @csrf
-            <form class="forms">
-                <div class="form-group">
-                    <label for="project">Project <span style="color: red">*</span></label>
-                    <select class="form-control" name="proid">
-                        @foreach($project as $pro)
-                        @foreach($bunit as $b)
-                            @if($b->status == 1)
-                                <option value="{{ $pro->proid }}">{{ $b->name }} - {{ $b->user->bunit }} - {{ $b->request }} - {{ $b->description }} </option>
-                            @endif
-                        @endforeach
-                        @endforeach
-                    </select>
-                    @error('bunitid')
-                    <span class="text-danger">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label for="methodology">System Development Methodology<span style="color: red">*</span></label>
-                    <select class="form-control" name="methodology">
-                        <option value="Agile Development" @if(old('methodology', $system->methodology) == "Agile Development") selected @endif)>Agile Development</option>
-                        <option value="Waterfall Development" @if(old('methodology') == "Waterfall Development") selected @endif)>Waterfall Development</option>
-                        <option value="Extreme Programming" @if(old('methodology') == "Extreme Programming") selected @endif)>Extreme Programming</option>
-                        <option value="Agile Development" @if(old('methodology') == "Agile Development") selected @endif)>Agile Development</option>
-                        <option value="Lean Development" @if(old('methodology') == "Lean Development") selected @endif)>Lean Development</option>
-                        <option value="Prototyping Methodology" @if(old('methodology') == "Prototyping Methodology") selected @endif)>Prototyping Methodology</option>
-                        <option value="Dynamic Systems Development" @if(old('methodology') == "Dynamic Systems Development") selected @endif)>Dynamic Systems Development</option>
-                        <option value="Feature Driven Development" @if(old('methodology') == "Feature Driven Development") selected @endif)>Feature Driven Development</option>
-                        <option value="Rational Unified Process" @if(old('methodology') == "Rational Unified Process") selected @endif)>Rational Unified Process</option>
-                        <option value="Spiral Development Model" @if(old('methodology') == "Spiral Development Model") selected @endif)>Spiral Development Model</option>
-                        <option value="Joint Application Development" @if(old('methodology') == "Joint Application Development") selected @endif)>Joint Application Development</option>
-                        <option value="Scrum Development" @if(old('methodology') == "Scrum Development") selected @endif)>Scrum Development</option>
-                        <option value="Rapid Application Development" @if(old('methodology') == "Rapid Application Development") selected @endif)>Rapid Application Development</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="platform">System Platform <span style="color: red">*</span></label>
-                    <select class="form-control" name="platform">
-                        <option value="web-based" @if(old('platform', $system->platform) == "web-based") selected @endif)>Web-Based</option>
-                        <option value="mobile" @if(old('platform') == "mobile") selected @endif)>Mobile</option>
-                        <option value="stand-alone system" @if(old('platform') == "stand-alone system") selected @endif)>Stand-Alone System</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="deployment">Deployment Type<span style="color: red">*</span></label>
-                    <select class="form-control" name="deployment">
-                        <option value="cloud" @if(old('deployment', $system->deployment) == "cloud") selected @endif)>Cloud</option>
-                        <option value="on-promises" @if(old('deployment') == "on-promises") selected @endif)>On-Promises</option>
-                    </select>
-                </div>
-                <a href="{{ route('app.itms.system.index') }}" class="btn btn-info">Cancel</a>
-                <button type="submit" class="btn btn-success mr-2">Submit</button>
-            </form>
-        </div>
-    </div>
-    </div>
-    </div>
+
+<div class="page-header">
+  <div>
+    <h3>{{ $system->sysid ? 'Edit System Information' : 'Register System Development' }}</h3>
+    <p>Link a system to an existing project with its technical details.</p>
+  </div>
+  <a href="{{ route('app.itms.system.index') }}" class="btn btn-info">
+    <i class="fa-solid fa-arrow-left"></i> Back
+  </a>
 </div>
 
-<script>
-function calcDuration() {
-    // Get the start_date and end_date values
-    var startDateStr = document.getElementById('start_date').value;
-    var endDateStr = document.getElementById('end_date').value;
+<div style="max-width:600px">
+  <div class="card">
+    <div class="card-title">System Details</div>
 
-    // Convert the string dates to JavaScript Date objects
-    var startDate = new Date(startDateStr);
-    var endDate = new Date(endDateStr);
+    @if($system->sysid)
+      <form action="{{ route('app.itms.system.update', $system->sysid) }}" method="POST">
+        @method('PUT')
+    @else
+      <form action="{{ route('app.itms.system.store') }}" method="POST">
+    @endif
+    @csrf
 
-    // Calculate the number of days
-    var Duration = (endDate - startDate) / (1000 * 60 * 60 * 24);
+    <div class="mb-3">
+      <label class="form-label">Project <span style="color:var(--danger)">*</span></label>
+      <select class="form-select" name="proid">
+        @foreach($project as $pro)
+          @foreach($bunit as $b)
+            @if($b->status == 1)
+              <option value="{{ $pro->proid }}" {{ old('proid') == $pro->proid ? 'selected' : '' }}>
+                {{ $b->name }} — {{ $b->user->bunit }} — {{ $b->request }}
+              </option>
+            @endif
+          @endforeach
+        @endforeach
+      </select>
+      @error('bunitid')
+        <span class="invalid-feedback">{{ $message }}</span>
+      @enderror
+    </div>
 
-    // Display the result
-    var obj = document.getElementById('duration');
-    obj.value = Duration;
-}
-</script>
+    <div class="mb-3">
+      <label class="form-label">Development Methodology <span style="color:var(--danger)">*</span></label>
+      <select class="form-select" name="methodology">
+        @php
+          $methodologies = [
+            'Agile Development', 'Waterfall Development', 'Extreme Programming',
+            'Lean Development', 'Prototyping Methodology', 'Dynamic Systems Development',
+            'Feature Driven Development', 'Rational Unified Process',
+            'Spiral Development Model', 'Joint Application Development',
+            'Scrum Development', 'Rapid Application Development'
+          ];
+        @endphp
+        @foreach($methodologies as $m)
+          <option value="{{ $m }}" {{ old('methodology', $system->methodology) == $m ? 'selected' : '' }}>
+            {{ $m }}
+          </option>
+        @endforeach
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">System Platform <span style="color:var(--danger)">*</span></label>
+      <select class="form-select" name="platform">
+        <option value="web-based"          {{ old('platform', $system->platform) == 'web-based'          ? 'selected' : '' }}>Web-Based</option>
+        <option value="mobile"             {{ old('platform', $system->platform) == 'mobile'             ? 'selected' : '' }}>Mobile</option>
+        <option value="stand-alone system" {{ old('platform', $system->platform) == 'stand-alone system' ? 'selected' : '' }}>Stand-Alone System</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Deployment Type <span style="color:var(--danger)">*</span></label>
+      <select class="form-select" name="deployment">
+        <option value="cloud"       {{ old('deployment', $system->deployment) == 'cloud'       ? 'selected' : '' }}>Cloud</option>
+        <option value="on-premises" {{ old('deployment', $system->deployment) == 'on-premises' ? 'selected' : '' }}>On-Premises</option>
+      </select>
+    </div>
+
+    <div style="display:flex; gap:0.5rem; justify-content:flex-end; margin-top:0.5rem">
+      <a href="{{ route('app.itms.system.index') }}" class="btn btn-info">
+        <i class="fa-solid fa-xmark"></i> Cancel
+      </a>
+      <button type="submit" class="btn btn-primary">
+        <i class="fa-solid fa-floppy-disk"></i> {{ $system->sysid ? 'Update' : 'Save System' }}
+      </button>
+    </div>
+
+    </form>
+  </div>
+</div>
+
 @endsection

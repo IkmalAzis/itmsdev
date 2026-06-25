@@ -23,11 +23,7 @@
                         <table class="table table-striped table-borderless">
                             <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>Developer Name</th>
-                                    <th>Phone Number</th>
-                                    <th>Email</th>
-                                    <th>Status</th>
+                                    <th>No</th><th>Developer Name</th><th>Phone Number</th><th>Email</th><th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -39,11 +35,12 @@
                                     <td>{{ $user->phonenum }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>
-                                    @if($user->status == 1)
-                                        <span class="badge bg-success">Available</a></td>
-                                    @else
-                                        <span class="badge bg-danger">Unavailable</a></td>
-                                    @endif
+                                        @if($user->status == 1)
+                                            <div class="badge bg-success text-white">Available</div>
+                                        @else
+                                            <div class="badge bg-danger text-white">Unavailable</div>
+                                        @endif
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

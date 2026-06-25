@@ -1,85 +1,114 @@
-@extends('layouts.register')
+@extends('layouts.login')
 
-@section('pagebusinessunit')
-    <businessunit>Register</businessunit>
+@section('pagetitle')
+  <title>Register — ITMS</title>
 @endsection
 
 @section('content')
-    <form class="pt-1" method="POST" action="{{ route('register') }}">
-    @csrf
-    <div class="row mb-3">
-        <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
-        
-        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+<div class="card-heading">
+  <h2>Create account</h2>
+  <p>Fill in your details to get started.</p>
+</div>
 
-        @error('name')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-        @enderror
-    </div>
-    <div class="row mb-3">
-        <label for="phonenum" class="col-md-4 col-form-label text-md-end">{{ __('Phone Number') }}</label>
-        
-        <input id="phonenum" type="text" class="form-control @error('phonenum') is-invalid @enderror" name="phonenum" value="{{ old('phonenum') }}" required autocomplete="name" autofocus>
+<form method="POST" action="{{ route('register') }}">
+  @csrf
 
-        @error('phonenum')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-        @enderror
+  {{-- Row 1: Name + Phone --}}
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem">
+    <div class="form-group">
+      <label for="name">Full Name</label>
+      <div class="input-wrap">
+        <i class="fa-regular fa-user"></i>
+        <input id="name" type="text" name="name"
+          class="@error('name') is-invalid @enderror"
+          value="{{ old('name') }}" required autofocus placeholder="Your name">
+      </div>
+      @error('name')
+        <span class="invalid-feedback"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</span>
+      @enderror
     </div>
-    <div class="row mb-3">
-        <label for="bunit" class="col-md-4 col-form-label text-md-end">{{ __('Business Unit') }}</label>
-        
-        <select class="form-control" name="bunit">
-            <option value="">-- Please Select --</option>
-            <option value="ITMS">ITMS</option>
-            <option value="CCI">CCI</option>
-            <option value="COE">COE</option>
-            <option value="COBA">COBA</option>
-            <option value="COGS">COGS</option>
+
+    <div class="form-group">
+      <label for="phonenum">Phone</label>
+      <div class="input-wrap">
+        <i class="fa-solid fa-phone"></i>
+        <input id="phonenum" type="text" name="phonenum"
+          class="@error('phonenum') is-invalid @enderror"
+          value="{{ old('phonenum') }}" required placeholder="01x-xxxxxxx">
+      </div>
+      @error('phonenum')
+        <span class="invalid-feedback"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</span>
+      @enderror
+    </div>
+  </div>
+
+  {{-- Row 2: Business Unit + Email --}}
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem">
+    <div class="form-group">
+      <label for="bunit">Business Unit</label>
+      <div class="input-wrap">
+        <i class="fa-solid fa-building"></i>
+        <select name="bunit" id="bunit" style="
+          width:100%; padding:0.65rem 0.9rem 0.65rem 2.4rem;
+          background:var(--bg); border:1px solid var(--border);
+          border-radius:8px; color:var(--text); font-size:0.88rem;
+          font-family:'Inter',sans-serif; outline:none; appearance:none;">
+          <option value="">-- Select --</option>
+          <option value="ITMS" {{ old('bunit') == 'ITMS' ? 'selected' : '' }}>ITMS</option>
+          <option value="CCI"  {{ old('bunit') == 'CCI'  ? 'selected' : '' }}>CCI</option>
+          <option value="COE"  {{ old('bunit') == 'COE'  ? 'selected' : '' }}>COE</option>
+          <option value="COBA" {{ old('bunit') == 'COBA' ? 'selected' : '' }}>COBA</option>
+          <option value="COGS" {{ old('bunit') == 'COGS' ? 'selected' : '' }}>COGS</option>
         </select>
-        @error('bunit')
-        <span class="text-danger">
-            <strong>{{ $message }}</strong>
-        </span>
-        @enderror
+      </div>
+      @error('bunit')
+        <span class="invalid-feedback"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</span>
+      @enderror
     </div>
-    <div class="row mb-3">
-        <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email  Address') }}</label>
-        
-        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
 
-        @error('email')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-        @enderror
+    <div class="form-group">
+      <label for="email">Email</label>
+      <div class="input-wrap">
+        <i class="fa-regular fa-envelope"></i>
+        <input id="email" type="email" name="email"
+          class="@error('email') is-invalid @enderror"
+          value="{{ old('email') }}" required placeholder="you@email.com">
+      </div>
+      @error('email')
+        <span class="invalid-feedback"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</span>
+      @enderror
     </div>
-    <div class="row mb-3">
-        <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-        
-        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+  </div>
 
-        @error('password')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-        @enderror
+  {{-- Row 3: Password + Confirm --}}
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem">
+    <div class="form-group">
+      <label for="password">Password</label>
+      <div class="input-wrap">
+        <i class="fa-solid fa-lock"></i>
+        <input id="password" type="password" name="password"
+          class="@error('password') is-invalid @enderror"
+          required placeholder="Min 8 chars">
+      </div>
+      @error('password')
+        <span class="invalid-feedback"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</span>
+      @enderror
     </div>
-    <div class="row mb-3">
-        <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
-        
-        <input id="password-confirm" type="password" class="form-control" name="password_confirmation"required autocomplete="new-password">
+
+    <div class="form-group">
+      <label for="password-confirm">Confirm</label>
+      <div class="input-wrap">
+        <i class="fa-solid fa-lock"></i>
+        <input id="password-confirm" type="password"
+          name="password_confirmation" required placeholder="Repeat password">
+      </div>
     </div>
-    
-    <div class="mt-3">
-        <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">{{ __('Register') }}
-        </button>
-    </div>
-    <div class="text-center mt-4 font-weight-light">
-        Already have an account? <a href="{{ route('login') }}" class="text-primary">Login</a>
-    </div>
-    </form>
+  </div>
+
+  <button type="submit" class="btn-primary">Create Account</button>
+</form>
+
+<div class="register-link" style="margin-top:1rem;">
+  Already have an account? <a href="{{ route('login') }}">Sign in</a>
+</div>
 @endsection

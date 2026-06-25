@@ -1,120 +1,146 @@
 @extends('layouts.skydash')
 
 @section('pagetitle')
-    <title>ITMS Dashboard</title>
+  <title>Project Details — ITMS</title>
 @endsection
 
-@section('content')
-<div class="content-wrapper">
-    <div class="row">
-        <div class="col-md-12 grid-margin">
-            <div class="row">
-                <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                    <h3 class="font-weight-bold">Project & System Details</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-borderless">
-                            <tr>
-                                <td>Business Unit</td>
-                                <td>{{ $project->businessUnit->user->bunit }}</td>
-                            </tr>
-                            <tr>
-                                <td>PIC Name</td>
-                                <td>{{ $project->businessUnit->name }}</td>
-                            </tr>
-                            <tr>
-                                <td>Start Date</td>
-                                <td>{{ date('d-m-Y', strtotime($project->start_date)) }}</td>
-                            </tr>
-                            <tr>
-                                <td>End Date</td>
-                                <td>{{ date('d-m-Y', strtotime($project->end_date)) }}</td>
-                            </tr>
-                            <tr>
-                                <td>Duration</td>
-                                <td>{{ $project->duration }}</td>
-                            </tr>
-                            <tr>
-                                <td>Status</td>
-                                <td>
-                                    @if($project->status == 0)
-                                        <div class="badge badge-info">Ahead Of Schedule</div>
-                                    @elseif($project->status == 1)
-                                        <div class="badge badge-primary">On Schedule</div>
-                                    @elseif($project->status == 3)
-                                        <div class="badge badge-success">Completed</div>
-                                    @else
-                                        <div class="badge badge-danger">Delayed</div>
-                                    @endif
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Progress Date</td>
-                                <td>{{ date('d-m-Y', strtotime($project->progress_date )) }}</td>
-                            </tr>
-                            <tr>
-                                <td>Progress Description</td>
-                                <td>{{ $project->progress_description }}</td>
-                            </tr>
-                            <tr>
-                                <td>Lead Developer</td>
-                                <td>{{ $project->user->name }}</td>
-                            </tr>
-                            <tr>
-                                <td>Developers</td>
-                                <td>
-                                    <table class="table table-bordered mb-4">
-                                        @php($i=1)
-                                        <tr>
-                                            <th>No.</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Phone Number</th>
-                                        </tr>
-                                        @if ($project->developers)
-                                            @foreach($project->developers as $dev)
-                                            <tr>
-                                                <td>{{ $i++ }}</td>
-                                                <td>{{ $dev->name }}</td>
-                                                <td>{{ $dev->email }}</td>
-                                                <td>{{ $dev->phonenum }}</td>
-                                            </tr>
-                                            @endforeach
-                                        @else
-                                            <p>No developers assigned yet.</p>
-                                        @endif
-                                    </table>
-                                    <form method="post" action="{{ route('app.itms.project.attachDevelopers', $project) }}">
-                                        @csrf
-                                        <select name="developer_ids[]" class="form-select" multiple>
-                                            @foreach($availableDevelopers as $developer)
-                                                <option value="{{ $developer->userid }}">{{ $developer->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <input type="submit" class="btn btn-warning" value="Attach Developers">
-                                    </form>
+@section('topbar-title', 'Project Details')
 
-                                    <form method="post" action="{{ route('app.itms.project.detachDevelopers', $project) }}">
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger">Detach All Developers</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="text-center">
-        <a class="btn btn-warning " href="{{route('app.itms.project.index')}}">Back</a>
-    </div>
+@section('content')
+
+<div class="page-header">
+  <div>
+    <h3>Project & System Details</h3>
+    <p>Full breakdown of this project assignment.</p>
+  </div>
+  <a href="{{ route('app.itms.project.index') }}" class="btn btn-info">
+    <i class="fa-solid fa-arrow-left"></i> Back
+  </a>
 </div>
+
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+
+  <!-- Project Info -->
+  <div class="card">
+    <div class="card-title">Project Info</div>
+    <table style="width:100%">
+      <tbody>
+        <tr>
+          <td style="color:var(--muted); width:40%; padding:0.5rem 0; font-size:0.82rem">Business Unit</td>
+          <td style="padding:0.5rem 0; font-weight:600">{{ $project->businessUnit->user->bunit }}</td>
+        </tr>
+        <tr>
+          <td style="color:var(--muted); padding:0.5rem 0; font-size:0.82rem; border-top:1px solid var(--border)">PIC Name</td>
+          <td style="padding:0.5rem 0; border-top:1px solid var(--border)">{{ $project->businessUnit->name }}</td>
+        </tr>
+        <tr>
+          <td style="color:var(--muted); padding:0.5rem 0; font-size:0.82rem; border-top:1px solid var(--border)">Start Date</td>
+          <td style="padding:0.5rem 0; border-top:1px solid var(--border)">{{ date('d M Y', strtotime($project->start_date)) }}</td>
+        </tr>
+        <tr>
+          <td style="color:var(--muted); padding:0.5rem 0; font-size:0.82rem; border-top:1px solid var(--border)">End Date</td>
+          <td style="padding:0.5rem 0; border-top:1px solid var(--border)">{{ date('d M Y', strtotime($project->end_date)) }}</td>
+        </tr>
+        <tr>
+          <td style="color:var(--muted); padding:0.5rem 0; font-size:0.82rem; border-top:1px solid var(--border)">Duration</td>
+          <td style="padding:0.5rem 0; border-top:1px solid var(--border)">{{ $project->duration }}</td>
+        </tr>
+        <tr>
+          <td style="color:var(--muted); padding:0.5rem 0; font-size:0.82rem; border-top:1px solid var(--border)">Status</td>
+          <td style="padding:0.5rem 0; border-top:1px solid var(--border)">
+            @if($project->status == 0)
+              <span class="badge badge-info"><i class="fa-solid fa-circle-up"></i> Ahead of Schedule</span>
+            @elseif($project->status == 1)
+              <span class="badge badge-primary"><i class="fa-solid fa-circle-check"></i> On Schedule</span>
+            @elseif($project->status == 3)
+              <span class="badge badge-success"><i class="fa-solid fa-flag-checkered"></i> Completed</span>
+            @else
+              <span class="badge badge-danger"><i class="fa-solid fa-clock"></i> Delayed</span>
+            @endif
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Progress Info -->
+  <div class="card">
+    <div class="card-title">Progress Update</div>
+    <table style="width:100%">
+      <tbody>
+        <tr>
+          <td style="color:var(--muted); width:40%; padding:0.5rem 0; font-size:0.82rem">Progress Date</td>
+          <td style="padding:0.5rem 0">{{ date('d M Y', strtotime($project->progress_date)) }}</td>
+        </tr>
+        <tr>
+          <td style="color:var(--muted); padding:0.5rem 0; font-size:0.82rem; border-top:1px solid var(--border)">Description</td>
+          <td style="padding:0.5rem 0; border-top:1px solid var(--border); color:var(--muted)">
+            {{ $project->progress_description ?? '—' }}
+          </td>
+        </tr>
+        <tr>
+          <td style="color:var(--muted); padding:0.5rem 0; font-size:0.82rem; border-top:1px solid var(--border)">Lead Developer</td>
+          <td style="padding:0.5rem 0; border-top:1px solid var(--border); font-weight:600">{{ $project->user->name ?? '—' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Developers -->
+<div class="card">
+  <div class="card-title">Assigned Developers</div>
+
+  @if($project->developers && $project->developers->count())
+  <div class="table-wrap" style="margin-bottom:1.25rem">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+        </tr>
+      </thead>
+      <tbody>
+        @php($i = 1)
+        @foreach($project->developers as $dev)
+        <tr>
+          <td style="color:var(--muted)">{{ $i++ }}</td>
+          <td style="font-weight:500">{{ $dev->name }}</td>
+          <td style="color:var(--muted)">{{ $dev->email }}</td>
+          <td style="color:var(--muted)">{{ $dev->phonenum }}</td>
+        </tr>
+        @endforeach
+      </tbody>
+    </table>
+  </div>
+  @else
+  <p style="color:var(--muted); font-size:0.85rem; margin-bottom:1rem">No developers assigned yet.</p>
+  @endif
+
+  <div style="display:grid; grid-template-columns:1fr auto; gap:0.75rem; align-items:end">
+    <form method="POST" action="{{ route('app.itms.project.attachDevelopers', $project) }}" style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap">
+      @csrf
+      <select name="developer_ids[]" class="form-select" multiple
+        style="min-width:220px; min-height:80px;">
+        @foreach($availableDevelopers as $developer)
+          <option value="{{ $developer->userid }}">{{ $developer->name }}</option>
+        @endforeach
+      </select>
+      <button type="submit" class="btn btn-success" style="align-self:flex-end">
+        <i class="fa-solid fa-user-plus"></i> Attach
+      </button>
+    </form>
+
+    <form method="POST" action="{{ route('app.itms.project.detachDevelopers', $project) }}">
+      @csrf
+      <button type="submit" class="btn btn-danger"
+        onclick="return confirm('Remove all developers from this project?')">
+        <i class="fa-solid fa-user-minus"></i> Detach All
+      </button>
+    </form>
+  </div>
+</div>
+
 @endsection
